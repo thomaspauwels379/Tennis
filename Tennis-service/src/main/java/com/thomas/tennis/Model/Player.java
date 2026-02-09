@@ -1,12 +1,16 @@
 package com.thomas.tennis.Model;
 
+import com.thomas.tennis.Enums.Points;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = "players")
 public class Player {
 
@@ -16,7 +20,7 @@ public class Player {
 
     private String name;
 
-    private int score;
+    private Points points;
 
     private int games;
 
@@ -24,24 +28,8 @@ public class Player {
 
     public Player(String name){
         this.name = name;
-        this.score = 0;
+        this.points = Points.LOVE;
         this.games = 0;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public int getGames() {
-        return games;
     }
 
 }
