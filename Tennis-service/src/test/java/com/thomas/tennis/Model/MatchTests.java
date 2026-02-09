@@ -15,10 +15,12 @@ import org.junit.jupiter.api.Test;
 import com.thomas.tennis.Enums.MatchState;
 import com.thomas.tennis.Enums.Points;
 
+import jakarta.persistence.Entity;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation; 
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import lombok.Getter;
 
 public class MatchTests {
 
@@ -63,7 +65,7 @@ public class MatchTests {
         assertEquals(player1.getId(), match.getPlayer1().getId());
         assertEquals(player2.getId(), match.getPlayer2().getId());
         assertEquals(matchState, match.getState());
-        Set<ConstraintViolation<Player>> violations = validator.validate(match);
+        Set<ConstraintViolation<Match>> violations = validator.validate(match);
         assertTrue(violations.isEmpty());
     }
 }
