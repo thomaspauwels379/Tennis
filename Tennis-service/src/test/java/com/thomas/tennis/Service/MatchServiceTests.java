@@ -72,4 +72,19 @@ public class MatchServiceTests {
         assertEquals(createdMatch.getPlayer2(),player2);
     }
 
+    @Test
+    public void givenValidMatch_whenPlayer1ScoresTwice_thenScoreIsThirtyLove() {
+        // GIVEN
+        when(matchRepository.findById(any(Long.class))).thenReturn(Optional.of(match1));
+        when(matchRepository.save(any(Match.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        // WHEN - Player 1 scoort twee keer (0 -> 15 -> 30)
+        matchService.addPointToMatch(match1.getId(), player1.getId());
+        matchService.addPointToMatch(match1.getId(), player1.getId());
+
+        // THEN
+        assertEquals(com.thomas.tennis.Enums.Points.THIRTY, player1.getPoints(), "Player 1 moet op 30 staan");
+        assertEquals(com.thomas.tennis.Enums.Points.LOVE, player2.getPoints(), "Player 2 moet op LOVE blijven staan");
+    }
+
 }
