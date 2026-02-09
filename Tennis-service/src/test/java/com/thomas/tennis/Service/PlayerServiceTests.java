@@ -56,11 +56,11 @@ public class PlayerServiceTests {
 
     @Test
     public void givenPlayerNames_whenPlayersAreMade_theyShouldBeReturnedWithTheRightName(){
-        // when
+        // given
         when(playerRepository.saveAll(anyIterable())).thenReturn(List.of(player1,player2));
-        // then
+        // when
         List<Player> players = playerService.createPlayers(player1.getName(), player2.getName());
-
+        // then
         assertEquals(players.size(), 2);
         assertTrue(players.contains(player1));
         assertTrue(players.contains(player2));
