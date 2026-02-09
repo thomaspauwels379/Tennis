@@ -31,9 +31,8 @@ public class MatchService {
 
     public Match createMatch(String namePlayer1, String namePlayer2){
         List<Player> players = playerService.createPlayers(namePlayer1,namePlayer2);
-        Match match = matchRepository.save(new Match(players.get(0),players.get(1)));
-        System.out.println(match);
-        return match;
+        Match match = new Match(players.get(0),players.get(1));
+        return matchRepository.save(match);
     }
 
 }
