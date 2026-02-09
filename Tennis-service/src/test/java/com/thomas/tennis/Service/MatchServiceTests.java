@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.service.spi.ServiceException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,10 +37,16 @@ public class MatchServiceTests {
     @InjectMocks
     MatchService matchService;
 
-    
-    private Player player1 = new Player("Jefrey");
-    private Player player2 = new Player("Rick");
-    private Match match1 = new Match(player1,player2);
+    private Player player1;
+    private Player player2;
+    private Match match1;
+
+    @BeforeEach
+    public void setup() {
+        player1 = new Player("Jefrey");
+        player2 = new Player("Rick");
+        match1 = new Match(player1, player2);
+    }
 
     @Test
     public void givenMatchWithId1_whenGetMatch1_thenMatchIsReturned() {
