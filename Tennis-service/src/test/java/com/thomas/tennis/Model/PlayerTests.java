@@ -5,11 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 
+import com.thomas.tennis.Enums.Points;
+
 public class PlayerTests {
 
-    private long validId = 0;
     private String validName = "Jefrey";
-    private int validScore = 0;
+    private Points validScore = Points.LOVE;
     private int validGames = 0;
 
     // constructor happy cases
