@@ -87,4 +87,21 @@ public class MatchServiceTests {
         assertEquals(com.thomas.tennis.Enums.Points.LOVE, player2.getPoints(), "Player 2 moet op LOVE blijven staan");
     }
 
+    @Test
+    public void givenDeuce_whenPlayer1Scores_thenPlayer1HasAdvantage() {
+        // GIVEN
+        player1.setPoints(com.thomas.tennis.Enums.Points.FORTY);
+        player2.setPoints(com.thomas.tennis.Enums.Points.FORTY);
+        
+        when(matchRepository.findById(any(Long.class))).thenReturn(Optional.of(match1));
+        when(matchRepository.save(any(Match.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        // WHEN
+        matchService.addPointToMatch(match1.getId(), player1.getId());
+
+        // THEN
+        assertEquals(com.thomas.tennis.Enums.Points.ADV, player1.getPoints(), "Player 1 moet Advantage hebben");
+        assertEquals(com.thomas.tennis.Enums.Points.FORTY, player2.getPoints());
+    }
+
 }
