@@ -10,7 +10,7 @@ import com.thomas.tennis.Enums.Points;
 public class PlayerTests {
 
     private String validName = "Jefrey";
-    private Points validScore = Points.LOVE;
+    private Points validPoints = Points.LOVE;
     private int validGames = 0;
 
     // constructor happy cases
@@ -21,7 +21,7 @@ public class PlayerTests {
         assertNotNull(player.getId());
         assertInstanceOf(Long.class,player.getId());
         assertEquals(validName, player.getName());
-        assertEquals(validScore, player.getScore());
+        assertEquals(validPoints, player.getPoints());
         assertEquals(validGames, player.getGames());
     }
 }
