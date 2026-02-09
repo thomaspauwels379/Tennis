@@ -38,7 +38,7 @@ public class MatchServiceTests {
     private Match match2 = new Match(player1,player2);
 
     @Test
-    public void givenMatchWithId1_whenGetMatch1_thenMatchIsReturned() throws Exception {
+    public void givenMatchWithId1_whenGetMatch1_thenMatchIsReturned() {
         // given
         when (matchRepository.findById(match1.getId())).thenReturn(Optional.of(match1));
         // when
@@ -48,7 +48,7 @@ public class MatchServiceTests {
     }
 
     @Test
-    public void givenMatchWithId0_whenGetMatch1_thenReturnNull() throws Exception {
+    public void givenMatchWithId0_whenGetMatch1_thenReturnNull() {
         // when
         Match foundMatch = matchService.getMatchById(match1.getId());
         // then
