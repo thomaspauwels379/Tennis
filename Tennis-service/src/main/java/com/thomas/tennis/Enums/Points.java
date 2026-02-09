@@ -4,4 +4,5 @@ public enum Points {
     FIFTEEN,
     THIRTY,
     FORTY,
+    ADV
 }

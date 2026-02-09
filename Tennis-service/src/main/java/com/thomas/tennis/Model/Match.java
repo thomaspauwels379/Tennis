@@ -8,10 +8,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Match {
 
     
@@ -28,8 +31,6 @@ public class Match {
     private Player player2;
 
     private MatchState state;
-
-    protected Match(){}
 
     public Match(Player player1, Player player2){
         this.player1 = player1;
