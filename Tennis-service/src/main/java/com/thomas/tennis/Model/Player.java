@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 
 @Entity
@@ -18,6 +20,7 @@ public class Player {
     @Id
     private long id;
 
+    @NotBlank(message="Name is required")
     private String name;
 
     private Points points;

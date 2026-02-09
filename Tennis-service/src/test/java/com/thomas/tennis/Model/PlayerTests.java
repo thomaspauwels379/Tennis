@@ -61,7 +61,7 @@ public class PlayerTests {
     }
 
     @Test
-    public void givenNoName_whenCreatingPlayerWithEmptyName_ThrowException(){
+    public void givenEmptyName_whenCreatingPlayerWithEmptyName_ThrowExceptionWithMessage(){
         // when
         String emptyName = "   ";
         Player playerWithNoName = new Player(emptyName);
@@ -73,6 +73,7 @@ public class PlayerTests {
         assertEquals("Name is required", violation.getMessage());
         assertEquals("name", violation.getPropertyPath().toString());
         assertEquals(emptyName, violation.getInvalidValue());
-
     }
+
+
 }
