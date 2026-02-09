@@ -6,21 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.service.spi.ServiceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
+import com.thomas.tennis.Enums.Points;
 import com.thomas.tennis.Model.Match;
 import com.thomas.tennis.Model.Player;
 import com.thomas.tennis.Repo.MatchRepository;
@@ -44,12 +41,17 @@ public class MatchServiceTests {
     @BeforeEach
     public void setup() {
         player1 = new Player("Jefrey");
+        player1.setId(1L);
+        
         player2 = new Player("Rick");
+        player2.setId(2L);
+
         match1 = new Match(player1, player2);
+        match1.setId(100L);
     }
 
     @Test
-    public void givenMatchWithId1_whenGetMatch1_thenMatchIsReturned() {
+    public void givenMatchWithId100_whenGetMatch100_thenMatchIsReturned() {
         // given
         when (matchRepository.findById(match1.getId())).thenReturn(Optional.of(match1));
         // when
@@ -59,9 +61,9 @@ public class MatchServiceTests {
     }
 
     @Test
-    public void givenMatchWithId0_whenGetMatch1_thenReturnNull() {
+    public void givenMatchWithId100_whenGetMatch1_thenReturnNull() {
         // when
-        Match foundMatch = matchService.getMatchById(match1.getId());
+        Match foundMatch = matchService.getMatchById(1L);
         // then
         assertNull(foundMatch);
     }
@@ -81,34 +83,69 @@ public class MatchServiceTests {
 
     @Test
     public void givenValidMatch_whenPlayer1ScoresTwice_thenScoreIsThirtyLove() {
-        // GIVEN
+        // given
         when(matchRepository.findById(any(Long.class))).thenReturn(Optional.of(match1));
         when(matchRepository.save(any(Match.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        // WHEN - Player 1 scoort twee keer (0 -> 15 -> 30)
+        // when
         matchService.addPointToMatch(match1.getId(), player1.getId());
         matchService.addPointToMatch(match1.getId(), player1.getId());
 
-        // THEN
-        assertEquals(com.thomas.tennis.Enums.Points.THIRTY, player1.getPoints(), "Player 1 moet op 30 staan");
-        assertEquals(com.thomas.tennis.Enums.Points.LOVE, player2.getPoints(), "Player 2 moet op LOVE blijven staan");
+        // then
+        assertEquals(Points.THIRTY, player1.getPoints(), "Player 1 moet op 30 staan");
+        assertEquals(Points.LOVE, player2.getPoints(), "Player 2 moet op LOVE blijven staan");
     }
 
     @Test
     public void givenDeuce_whenPlayer1Scores_thenPlayer1HasAdvantage() {
-        // GIVEN
-        player1.setPoints(com.thomas.tennis.Enums.Points.FORTY);
+        // given
+        player1.setPoints(Points.FORTY);
         player2.setPoints(com.thomas.tennis.Enums.Points.FORTY);
         
         when(matchRepository.findById(any(Long.class))).thenReturn(Optional.of(match1));
         when(matchRepository.save(any(Match.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        // WHEN
+        // when
         matchService.addPointToMatch(match1.getId(), player1.getId());
 
-        // THEN
+        // then
         assertEquals(com.thomas.tennis.Enums.Points.ADV, player1.getPoints(), "Player 1 moet Advantage hebben");
         assertEquals(com.thomas.tennis.Enums.Points.FORTY, player2.getPoints());
     }
 
+    @Test
+    public void givenPlayerAtForty_whenPlayerScoresAgainstThirty_thenGameIncrementsAndPointsReset() {
+        // given
+        player1.setPoints(Points.THIRTY);
+        player2.setPoints(Points.FORTY);
+        // when
+        when(matchRepository.findById(match1.getId())).thenReturn(Optional.of(match1));
+        when(matchRepository.save(any(Match.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        matchService.addPointToMatch(match1.getId(), player2.getId());
+        // then
+        assertEquals( 0, player1.getGames(), "Games moeten 0 blijven");
+        assertEquals( 1, player2.getGames(), "Games moeten met 1 stijgen");
+        assertEquals(Points.LOVE, player1.getPoints(), "Winnende speler reset naar LOVE");
+        assertEquals(Points.LOVE, player2.getPoints(), "Verliezende speler reset naar LOVE");
+    }
+
+    @Test
+    public void givenAdvantageBattle_whenWinnerScores_thenGameIncrementsAfterDeuce() {
+        // given
+        player1.setPoints(Points.ADV);
+        player2.setPoints(Points.FORTY);
+        int initialGames = player1.getGames();
+
+        when(matchRepository.findById(match1.getId())).thenReturn(Optional.of(match1));
+        when(matchRepository.save(any(Match.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        // when
+        matchService.addPointToMatch(match1.getId(), player1.getId());
+
+        // then
+        assertEquals(initialGames + 1, player1.getGames());
+        assertEquals(Points.LOVE, player1.getPoints());
+        assertEquals(Points.LOVE, player2.getPoints());
+    }
 }
