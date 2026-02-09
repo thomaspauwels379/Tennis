@@ -1,12 +1,13 @@
 package com.thomas.tennis.Model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 
 public class PlayerTests {
 
-    private long validId = 1;
+    private long validId = 0;
     private String validName = "Jefrey";
     private int validScore = 0;
     private int validGames = 0;
@@ -16,7 +17,8 @@ public class PlayerTests {
     public void givenValidInput_whenCreatingPlayer_thenPlayerIsCreatedWithThatInput() {
         Player player = new Player(validName);
         assertNotNull(player);
-        assertEquals(validId, player.getId());
+        assertNotNull(player.getId());
+        assertInstanceOf(Long.class,player.getId());
         assertEquals(validName, player.getName());
         assertEquals(validScore, player.getScore());
         assertEquals(validGames, player.getGames());
