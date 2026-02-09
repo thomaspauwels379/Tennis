@@ -20,11 +20,11 @@ public class Match {
     private long id;
 
     @OneToOne
-    @JoinColumn(name = "player", referencedColumnName = "id")
+    @JoinColumn(name = "player1", referencedColumnName = "id")
     private Player player1;
 
     @OneToOne
-    @JoinColumn(name = "player", referencedColumnName = "id")
+    @JoinColumn(name = "player2", referencedColumnName = "id")
     private Player player2;
 
     private MatchState state;

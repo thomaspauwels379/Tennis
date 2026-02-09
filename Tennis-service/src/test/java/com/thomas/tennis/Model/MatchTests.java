@@ -44,7 +44,7 @@ public class MatchTests {
     }
 
     @AfterAll
-    public static void tearDown() {
+    public static void clear() {
         if (validatorFactory != null) {
             validatorFactory.close();
         }
