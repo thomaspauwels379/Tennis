@@ -1,9 +1,11 @@
 package com.thomas.tennis.Service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import java.security.Principal;
+import java.util.Optional;
 
 import org.hibernate.service.spi.ServiceException;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.thomas.tennis.Model.Match;
 import com.thomas.tennis.Model.Player;
@@ -21,7 +24,7 @@ import com.thomas.tennis.Repo.MatchRepository;
 public class MatchServiceTests {
 
     @Mock
-    MatchRepository bookRepository;
+    MatchRepository matchRepository;
 
     @InjectMocks
     MatchService matchService;
@@ -35,13 +38,20 @@ public class MatchServiceTests {
     private Match match2 = new Match(player1,player2);
 
     @Test
-    public void givenBooksWithBookWithTitleDonQuichot_whenGetBookWithTitleDonQuichot_thenBookIsReturned()  throws ServiceException {
+    public void givenMatchWithId1_whenGetMatch1_thenMatchIsReturned() throws Exception {
         // given
-        when (MatchRepository.findMatchById(match1.getId())).thenReturn(match1);
+        when (matchRepository.findById(match1.getId())).thenReturn(Optional.of(match1));
         // when
         Match foundMatch = matchService.getMatchById(match1.getId());
         // then
         assertEquals(foundMatch.getId(), match1.getId());
     }
 
+    @Test
+    public void givenMatchWithId0_whenGetMatch1_thenReturnNull() throws Exception {
+        // when
+        Match foundMatch = matchService.getMatchById(match1.getId());
+        // then
+        assertNull(foundMatch);
+    }
 }
