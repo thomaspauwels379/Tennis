@@ -14,7 +14,7 @@ public class PlayerTests {
     // constructor happy cases
     @Test
     public void givenValidInput_whenCreatingPlayer_thenPlayerIsCreatedWithThatInput() {
-        Player player = Player(validName,validScore,validGames);
+        Player player = new Player(validName);
         assertNotNull(player);
         assertEquals(validId, player.getId());
         assertEquals(validName, player.getName());
