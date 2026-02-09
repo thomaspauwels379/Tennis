@@ -29,8 +29,8 @@ public class Player {
     private int games;
 
     @OneToOne
-    @JoinColumn(name = "matchId", referencedColumnName = "id")
-    private long matchId;
+    @JoinColumn(name = "match", referencedColumnName = "id")
+    private Match match;
 
     protected Player(){}
 
