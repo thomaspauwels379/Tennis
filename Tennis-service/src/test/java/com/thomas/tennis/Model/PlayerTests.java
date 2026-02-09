@@ -74,6 +74,4 @@ public class PlayerTests {
         assertEquals("name", violation.getPropertyPath().toString());
         assertEquals(emptyName, violation.getInvalidValue());
     }
-
-
 }
