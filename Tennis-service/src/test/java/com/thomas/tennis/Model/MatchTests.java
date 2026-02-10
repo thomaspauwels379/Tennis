@@ -90,7 +90,7 @@ public class MatchTests {
         String score = match.getScore();
 
         // then
-        assertEquals("30 - all", score);
+        assertEquals("30 - ALL", score);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class MatchTests {
         String score = match.getScore();
 
         // then
-        assertEquals("Deuce", score);
+        assertEquals("DEUCE", score);
     }
 
 

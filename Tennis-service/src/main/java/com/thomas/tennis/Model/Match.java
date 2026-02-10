@@ -1,6 +1,7 @@
 package com.thomas.tennis.Model;
 
 import com.thomas.tennis.Enums.MatchState;
+import com.thomas.tennis.Enums.Points;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,5 +39,24 @@ public class Match {
         this.player1 = player1;
         this.player2 = player2;
         this.state = MatchState.STARTED;
+    }
+
+    public String getScore() {
+        if (player1.getPoints() == player2.getPoints()) {
+            if (player1.getPoints() == Points.FORTY) {
+                return "DEUCE";
+            }
+            return renderPoint(player1.getPoints()) + " - ALL";
+        }
+        return renderPoint(player1.getPoints()) + " - " + renderPoint(player2.getPoints());
+    }
+    private String renderPoint(Points points) {
+        return switch (points) {
+            case LOVE    -> "LOVE";
+            case FIFTEEN -> "15";
+            case THIRTY  -> "30";
+            case FORTY   -> "40";
+            case ADV     -> "ADV";
+        };
     }
 }
