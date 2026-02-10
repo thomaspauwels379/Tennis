@@ -76,7 +76,6 @@ public class MatchTests {
         player2.setPoints(Points.THIRTY);        
         // when
         String score = match.getScore();
-
         // then
         assertEquals("15 - 30", score);
     }
@@ -88,7 +87,6 @@ public class MatchTests {
         player2.setPoints(Points.THIRTY);        
         // when
         String score = match.getScore();
-
         // then
         assertEquals("30 - ALL", score);
     }
@@ -100,7 +98,6 @@ public class MatchTests {
         player2.setPoints(Points.FORTY);        
         // when
         String score = match.getScore();
-
         // then
         assertEquals("DEUCE", score);
     }
@@ -113,7 +110,6 @@ public class MatchTests {
         player2.setPoints(Points.FORTY);        
         // when
         String score = match.getScore();
-
         // then
         assertEquals("ADV - 40", score);
     }
