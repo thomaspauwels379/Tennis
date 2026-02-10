@@ -68,4 +68,54 @@ public class MatchTests {
         Set<ConstraintViolation<Match>> violations = validator.validate(match);
         assertTrue(violations.isEmpty());
     }
+
+    @Test
+    public void givenAnOngoingMatchWithScore15To30_whenGettingTheMatchScore_thenMatchScoreIsReturned() {
+        // given
+        player1.setPoints(Points.FIFTEEN);
+        player2.setPoints(Points.THIRTY);        
+        // when
+        String score = match.getScore();
+
+        // then
+        assertEquals("15 - 30", score);
+    }
+
+    @Test
+    public void givenAnOngoingMatchWithScor30To30_whenGettingTheMatchScore_thenMatchScoreIsReturned() {
+        // given
+        player1.setPoints(Points.THIRTY);
+        player2.setPoints(Points.THIRTY);        
+        // when
+        String score = match.getScore();
+
+        // then
+        assertEquals("30 - all", score);
+    }
+
+    @Test
+    public void givenAnOngoingMatchAtFortyForty_whenGettingTheMatchScore_thenMatchScoreIsDeuce() {
+        // given
+        player1.setPoints(Points.FORTY);
+        player2.setPoints(Points.FORTY);        
+        // when
+        String score = match.getScore();
+
+        // then
+        assertEquals("Deuce", score);
+    }
+
+
+    @Test
+    public void givenAnOngoingMatchWithAdvantagePlayer1_whenGettingTheMatchScore_thenMatchScoreIsAdvantagePlayer1() {
+        // given
+        player1.setPoints(Points.ADV);
+        player2.setPoints(Points.FORTY);        
+        // when
+        String score = match.getScore();
+
+        // then
+        assertEquals("ADV - 40", score);
+    }
+
 }
