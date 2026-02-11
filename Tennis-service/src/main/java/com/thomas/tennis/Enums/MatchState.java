@@ -1,7 +1,7 @@
 package com.thomas.tennis.Enums;
 
 public enum MatchState {
-    STARTED,
+    ONGOING,
     FINISHED,
     CANCELED
 }

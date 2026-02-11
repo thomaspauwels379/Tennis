@@ -26,7 +26,7 @@ public class MatchTests {
 
     private String validName1 = "Jefrey";
     private String validName2 = "Rick";
-    private MatchState matchState = MatchState.STARTED;
+    private MatchState matchState = MatchState.ONGOING;
 
 
     private Player player1;

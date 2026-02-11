@@ -43,7 +43,7 @@ public class Match {
     public Match(Player player1, Player player2){
         this.player1 = player1;
         this.player2 = player2;
-        this.state = MatchState.STARTED;
+        this.state = MatchState.ONGOING;
     }
 
     public String getScore() {
@@ -67,12 +67,22 @@ public class Match {
     }
 
     public void scorePoint(long playerId) throws Exception {
+        Player player; 
         if (this.player1.getId() == playerId) {
-            this.player1.addPoint(this.player2);
+            player = this.player1;
         } else if (this.player2.getId() == playerId) {
-            this.player2.addPoint(this.player1);
+            player = this.player2;
         } else {
             throw new Exception("Player ID " + playerId + " is geen onderdeel van deze match.");
         }
+        player.addPoint(this.player1);
+        if(player.getGames() == 3){
+            setState(MatchState.FINISHED);
+        }
     }
+
+    public void cancelMatch() {
+        setState(MatchState.CANCELED);
+    }
+
 }
