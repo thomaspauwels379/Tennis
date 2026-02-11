@@ -31,7 +31,6 @@ public class PlayerTests {
 
     @BeforeAll
     public static void setupValidator() {
-        // This looks for the EL implementation and the Hibernate Validator on your classpath
         validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
     }
