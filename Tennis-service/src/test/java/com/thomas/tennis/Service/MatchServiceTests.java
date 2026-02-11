@@ -82,7 +82,7 @@ public class MatchServiceTests {
     }
 
     @Test
-    public void givenValidMatch_whenPlayer1ScoresTwice_thenScoreIsThirtyLove() {
+    public void givenValidMatch_whenPlayer1ScoresTwice_thenScoreIsThirtyLove() throws Exception {
         // given
         when(matchRepository.findById(any(Long.class))).thenReturn(Optional.of(match1));
         when(matchRepository.save(any(Match.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -97,7 +97,8 @@ public class MatchServiceTests {
     }
 
     @Test
-    public void givenDeuce_whenPlayer1Scores_thenPlayer1HasAdvantage() {
+    public void givenDeuce_whenPlayer1Scores_thenPlayer1HasAdvantage() throws Exception {
+        // given {
         // given
         player1.setPoints(Points.FORTY);
         player2.setPoints(com.thomas.tennis.Enums.Points.FORTY);
@@ -114,7 +115,8 @@ public class MatchServiceTests {
     }
 
     @Test
-    public void givenPlayerAtForty_whenPlayerScoresAgainstThirty_thenGameIncrementsAndPointsReset() {
+    public void givenPlayerAtForty_whenPlayerScoresAgainstThirty_thenGameIncrementsAndPointsReset() throws Exception {
+        // given {
         // given
         player1.setPoints(Points.THIRTY);
         player2.setPoints(Points.FORTY);
@@ -131,7 +133,8 @@ public class MatchServiceTests {
     }
 
     @Test
-    public void givenAdvantageBattle_whenWinnerScores_thenGameIncrementsAfterDeuce() {
+    public void givenAdvantageBattle_whenWinnerScores_thenGameIncrementsAfterDeuce() throws Exception {
+        // given {
         // given
         player1.setPoints(Points.ADV);
         player2.setPoints(Points.FORTY);

@@ -22,6 +22,11 @@ public class MatchService {
     @Autowired
     private PlayerService playerService;
 
+    public List<Match> getMatches(){
+        List<Match> matches = matchRepository.findAll();
+        return matches;
+    }
+
     public Match getMatchById(long matchId){
         Optional<Match> Omatch = matchRepository.findById(matchId);
         if(Omatch.isPresent()){
@@ -39,20 +44,12 @@ public class MatchService {
     }
 
     @Transactional
-    public Match addPointToMatch(long matchId, long playerId){
+    public Match addPointToMatch(long matchId, long playerId)throws Exception{
         Match match = getMatchById(matchId);
-
-        Player player;
-        Player opponent;
-        if (match.getPlayer1().getId() == playerId) {
-            player = match.getPlayer1();
-            opponent = match.getPlayer2();
-        } else {
-            player = match.getPlayer2();
-            opponent = match.getPlayer1();
+        if(match == null){
+            throw new Exception("De match met deze id is niet gevonden.");
         }
-        player.addPoint(opponent);
-
+        match.scorePoint(playerId);
         return matchRepository.save(match);
     }
 }

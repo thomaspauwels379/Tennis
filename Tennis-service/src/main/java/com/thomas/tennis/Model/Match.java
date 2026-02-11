@@ -50,6 +50,7 @@ public class Match {
         }
         return renderPoint(player1.getPoints()) + " - " + renderPoint(player2.getPoints());
     }
+
     private String renderPoint(Points points) {
         return switch (points) {
             case LOVE    -> "LOVE";
@@ -59,4 +60,14 @@ public class Match {
             case ADV     -> "ADV";
         };
     }
+
+    public void scorePoint(long playerId) throws Exception {
+    if (this.player1.getId() == playerId) {
+        this.player1.addPoint(this.player2);
+    } else if (this.player2.getId() == playerId) {
+        this.player2.addPoint(this.player1);
+    } else {
+        throw new Exception("Player ID " + playerId + " is geen onderdeel van deze match.");
+    }
+}
 }
