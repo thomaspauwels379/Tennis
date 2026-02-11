@@ -3,12 +3,16 @@ package com.thomas.tennis.Model;
 import com.thomas.tennis.Enums.MatchState;
 import com.thomas.tennis.Enums.Points;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,21 +22,22 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "matches")
 public class Match {
 
-    
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToOne
-    @JoinColumn(name = "player1", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "player1_id", referencedColumnName = "id")
     private Player player1;
 
-    @OneToOne
-    @JoinColumn(name = "player2", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "player2_id", referencedColumnName = "id")
     private Player player2;
 
+    @Enumerated(EnumType.ORDINAL)
     private MatchState state;
 
     public Match(Player player1, Player player2){
@@ -62,12 +67,12 @@ public class Match {
     }
 
     public void scorePoint(long playerId) throws Exception {
-    if (this.player1.getId() == playerId) {
-        this.player1.addPoint(this.player2);
-    } else if (this.player2.getId() == playerId) {
-        this.player2.addPoint(this.player1);
-    } else {
-        throw new Exception("Player ID " + playerId + " is geen onderdeel van deze match.");
+        if (this.player1.getId() == playerId) {
+            this.player1.addPoint(this.player2);
+        } else if (this.player2.getId() == playerId) {
+            this.player2.addPoint(this.player1);
+        } else {
+            throw new Exception("Player ID " + playerId + " is geen onderdeel van deze match.");
+        }
     }
-}
 }
