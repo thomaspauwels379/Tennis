@@ -11,5 +11,17 @@ services:
     volumes:
       - h2_data:/app/data
 
+  frontend:
+    build:
+      context: ./my-tennis-app
+      dockerfile: Dockerfile
+    container_name: tennis-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+    depends_on:
+      - backend
+
 volumes:
   h2_data:

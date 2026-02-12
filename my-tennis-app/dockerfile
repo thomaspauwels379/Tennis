@@ -1,0 +1,14 @@
+# Gebruik de Node versie die je al hebt (v24)
+FROM node:24-alpine
+
+WORKDIR /app
+
+# Kopieer package files voor snellere build-cache
+COPY package*.json ./
+RUN npm install
+
+# Kopieer de rest van de bestanden
+COPY . .
+
+# Start de app in development mode
+CMD ["npm", "run", "dev"]
