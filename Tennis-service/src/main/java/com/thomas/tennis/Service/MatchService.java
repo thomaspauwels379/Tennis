@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.thomas.tennis.Enums.MatchState;
 import com.thomas.tennis.Enums.Points;
 import com.thomas.tennis.Model.Match;
 import com.thomas.tennis.Model.Player;
@@ -43,13 +44,22 @@ public class MatchService {
         return matchRepository.save(match);
     }
 
+    public void cancelMatch(long matchId){
+        matchRepository.deleteById(matchId);
+    }
+
+
     @Transactional
     public Match addPointToMatch(long matchId, long playerId)throws Exception{
         Match match = getMatchById(matchId);
         if(match == null){
             throw new Exception("De match met deze id is niet gevonden.");
         }
+        if(match.getState() != MatchState.ONGOING){
+            throw new Exception("De match is afgelopen of afgesloten.");
+        }
         match.scorePoint(playerId);
-        return matchRepository.save(match);
+        Match savedMatch = matchRepository.save(match);
+        return savedMatch;
     }
 }

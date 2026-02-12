@@ -68,14 +68,17 @@ public class Match {
 
     public void scorePoint(long playerId) throws Exception {
         Player player; 
+        Player opponent; 
         if (this.player1.getId() == playerId) {
             player = this.player1;
+            opponent = this.player2;
         } else if (this.player2.getId() == playerId) {
             player = this.player2;
+            opponent = this.player1;
         } else {
             throw new Exception("Player ID " + playerId + " is geen onderdeel van deze match.");
         }
-        player.addPoint(this.player1);
+        player.addPoint(opponent);
         if(player.getGames() == 3){
             setState(MatchState.FINISHED);
         }
