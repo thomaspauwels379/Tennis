@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { matchService } from '@/services/matchService';
 import { Match } from '@/types';
+import GameEngine from '@/components/GameEngine';
 
 export default function GamePage() {
   const { matchId } = useParams();
@@ -91,8 +92,7 @@ export default function GamePage() {
         <div className="absolute inset-y-0 left-1/2 w-px border-r border-dashed border-white/10"></div>
         
         <div className="z-10 text-center">
-          <p className="text-text-dim font-mono text-[10px] uppercase tracking-[0.4em] mb-2">Simulation Active</p>
-          <div className="w-2 h-2 bg-primary rounded-full mx-auto animate-bounce shadow-[0_0_10px_#a3e635]"></div>
+          <GameEngine />
         </div>
       </div>
 
