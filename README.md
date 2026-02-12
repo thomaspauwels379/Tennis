@@ -30,6 +30,14 @@ Then press run in your ide or navigate to the following file and run the main fu
 
 ```Tennis-service\src\main\java\com\thomas\tennis\TennisApplication.java```
 
+### To start the Frontend
+Navigate inside the terminal to the frontend folder: ```my-tennis-app```
+run:
+```
+npm install
+en
+npm run dev
+```
 
 # Nederlands
 
@@ -41,6 +49,8 @@ docker compose up
 
 Dit project is gemaakt met behulp van 
 java (JDK 25) + maven (3.9.6) + springboot 4
+en 
+next.js (node 16.1.6)
 
 ## Voor de setup van de development omgeving:
 
@@ -50,7 +60,7 @@ https://maven.apache.org/install.html
 
 - java:
 https://www.oracle.com/java/technologies/javase/jdk25-archive-downloads.html
-## De backend opstarten
+### De backend opstarten
 Navigeer in de terminal naar de backend folder
 run:
 ```
@@ -60,5 +70,14 @@ Druk daarna op de run button voor java in de ide of navigeer naar de volgende fi
 
 ```Tennis-service\src\main\java\com\thomas\tennis\TennisApplication.java```
 
+
+### De Frontend opstarten
+Navigeer in de terminal naar de frontend folder: ```my-tennis-app```
+run:
+```
+npm install
+en
+npm run dev
+```
 
 Leuk te zien dat jullie heel de documentatie hebben gelezen :)
