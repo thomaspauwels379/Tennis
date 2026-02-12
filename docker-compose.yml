@@ -1,0 +1,15 @@
+services:
+  backend:
+    build:
+      context: ./Tennis-service
+      dockerfile: dockerfile
+    container_name: tennis-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:h2:file:/app/data/devdb
+    volumes:
+      - h2_data:/app/data
+
+volumes:
+  h2_data:
