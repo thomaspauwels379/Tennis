@@ -1,0 +1,9 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "rootDirectory": "tennis-service"
+  },
+  "deploy": {
+    "numReplicas": 1
+  }
+}
