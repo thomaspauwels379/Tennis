@@ -1,12 +1,15 @@
 "use client";
 
+import { matchService } from '@/services/matchService';
+import { Match, Player } from '@/types';
 import { RefObject, useEffect, useRef } from 'react';
 
 type GameProps = {
   keysPressed: React.RefObject<Record<string, boolean> | null>;
+  match: Match;
 };
 
-export default function GameEngine({ keysPressed }: GameProps) {
+export default function GameEngine({ keysPressed, match }: GameProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const player1Y = useRef(300);
   const player2Y = useRef(300);
@@ -20,8 +23,8 @@ export default function GameEngine({ keysPressed }: GameProps) {
   const ballVelocityY = useRef(0);
   const ballSpeed = 10;
 
-  const handleScore = (playerWhoScored: number) => {
-    console.log(`Punt voor speler ${playerWhoScored}`);
+  const handleScore = (player: Player) => {
+    matchService.scorePoint(match.id ,player.id);
     resetBall();
   };
 
@@ -46,18 +49,15 @@ export default function GameEngine({ keysPressed }: GameProps) {
 
     let animationFrameId: number;
 
-    // Start de eerste bal
     resetBall();
 
     const update = () => {
       const keys = keysPressed.current;
       if (!keys) return;
 
-      // Player 1 Controls
       if (keys['KeyW']) player1Y.current -= speed;
       if (keys['KeyS']) player1Y.current += speed;
       
-      // Player 2 Controls (I en K zoals in je code)
       if (keys['KeyI']) player2Y.current -= speed;
       if (keys['KeyK']) player2Y.current += speed;
 
@@ -72,9 +72,9 @@ export default function GameEngine({ keysPressed }: GameProps) {
       }
 
       if (ballX.current <= 0) {
-        handleScore(2);
+        handleScore(match.player2);
       } else if (ballX.current >= canvas.width - ballSize) {
-        handleScore(1);
+        handleScore(match.player1);
       }
     };
 
