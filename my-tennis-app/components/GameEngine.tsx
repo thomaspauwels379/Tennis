@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 
 type GameProps = {
   keysPressed: React.RefObject<Record<string, boolean> | null>;
@@ -35,18 +35,22 @@ export default function GameEngine({ keysPressed }: GameProps) {
       if (keys['KeyS']) {
         player1Y.current += speed;
       }
-      if (keys['keyI']) {
-        player1Y.current -= speed;
+      if (keys['KeyI']) {
+        player2Y.current -= speed;
       }
-      if (keys['KeyS']) {
-        player1Y.current += speed;
+      if (keys['KeyK']) {
+        player2Y.current += speed;
       }
-
-      if (player1Y.current < 0) player1Y.current = 0;
-      if (player1Y.current > canvas.height - spriteSize) {
-        player1Y.current = canvas.height - spriteSize;
-      }
+      checkPlayerWithinBorders(player1Y,canvas);
+      checkPlayerWithinBorders(player2Y,canvas);
     };
+
+    const checkPlayerWithinBorders = (player:RefObject<number>,canvas:HTMLCanvasElement) => {
+      if (player.current < 0) player.current = 0;
+      if (player.current > canvas.height - spriteSize) {
+        player.current = canvas.height - spriteSize;
+      }
+    }
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -56,7 +60,7 @@ export default function GameEngine({ keysPressed }: GameProps) {
         ctx.save();
         ctx.translate(1600, 0);
         ctx.scale(-1, 1);
-        ctx.drawImage(img, -50, player1Y.current, spriteSize, spriteSize);
+        ctx.drawImage(img, -50, player2Y.current, spriteSize, spriteSize);
         ctx.restore();
       } else {
         img.onload = () => draw();
@@ -72,7 +76,7 @@ export default function GameEngine({ keysPressed }: GameProps) {
     loop();
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [keysPressed, spriteSize]);
+  }, [keysPressed]);
 
   return (
     <canvas 
