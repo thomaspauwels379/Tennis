@@ -1,0 +1,15 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern id="snaren" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+<path d="M 8 4 L 0 4 M 4 0 L 4 8" fill="none" stroke="#a3e635" stroke-width="0.5" opacity="0.6"/>
+</pattern>
+</defs>
+
+<g transform="translate(150, 150)">
+<circle cx="0" cy="0" r="25" fill="#a3e635"/>
+<g>
+<line x1="25" y1="0" x2="75" y2="0" stroke="#a3e635" stroke-width="8" stroke-linecap="round"/>
+<ellipse cx="110" cy="0" rx="35" ry="25" fill="url(#snaren)" stroke="#a3e635" stroke-width="6"/>
+</g>
+</g>
+</svg>
