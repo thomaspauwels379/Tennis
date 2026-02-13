@@ -112,7 +112,7 @@ export default function GamePage() {
       <div className="grow w-full max-w-5xl mx-auto bg-black rounded-xl border border-border-subtle relative overflow-hidden flex items-center justify-center">
         <div className="absolute inset-y-0 left-1/2 w-px border-r border-dashed border-white/10"></div>
 
-        <GameEngine keysPressed={keysRef} />
+        <GameEngine keysPressed={keysRef} match={match}/>
       </div>
 
       <div className="flex justify-between items-center w-full max-w-5xl mx-auto mt-4 shrink-0">

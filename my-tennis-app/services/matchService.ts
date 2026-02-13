@@ -33,7 +33,7 @@ export const matchService = {
         return await response.json();
     },
 
-    async scorePoint(matchId: string, playerId: number): Promise<Match> {
+    async scorePoint(matchId: number, playerId: number): Promise<Match> {
         const response = await fetch(`${BASE_URL}/${matchId}/score?playerId=${playerId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
