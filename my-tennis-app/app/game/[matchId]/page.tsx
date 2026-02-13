@@ -111,8 +111,25 @@ export default function GamePage() {
 
       <div className="grow w-full max-w-5xl mx-auto bg-black rounded-xl border border-border-subtle relative overflow-hidden flex items-center justify-center">
         <div className="absolute inset-y-0 left-1/2 w-px border-r border-dashed border-white/10"></div>
-
-        <GameEngine keysPressed={keysRef} match={match}/>
+        {match.state == "ONGOING" && (
+          <GameEngine keysPressed={keysRef} match={match}/>
+        )}
+        {match.state == "FINISHED" && (
+          <div className="z-10 text-center animate-in fade-in zoom-in duration-500">
+            <h1 className="text-7xl md:text-9xl font-black italic text-white mb-2 uppercase tracking-tighter drop-shadow-2xl">
+              Match Finished
+            </h1>
+            <p className="text-primary font-mono text-xl uppercase tracking-widest">
+              Winner: {match.player1.games > match.player2.games ? match.player1.name : match.player2.name}
+            </p>
+            <button 
+              onClick={() => router.push('/')}
+              className="mt-8 px-8 py-3 bg-primary text-black font-black uppercase italic rounded-full hover:scale-105 transition-transform"
+            >
+              Back to Menu
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="flex justify-between items-center w-full max-w-5xl mx-auto mt-4 shrink-0">
