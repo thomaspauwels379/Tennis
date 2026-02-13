@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { matchService } from '@/services/matchService';
 import { Match } from '@/types';
@@ -12,6 +12,25 @@ export default function GamePage() {
   
   const [match, setMatch] = useState<Match | null>(null);
   const [loading, setLoading] = useState(true);
+  
+
+  const keysRef = useRef<Record<string, boolean>>({});
+
+  useEffect(() => {
+    const handleDown = (e: KeyboardEvent) => {
+      keysRef.current[e.code] = true;
+    };
+    const handleUp = (e: KeyboardEvent) => {
+      keysRef.current[e.code] = false;
+    };
+    window.addEventListener('keydown', handleDown);
+    window.addEventListener('keyup', handleUp);
+
+    return () => {
+      window.removeEventListener('keydown', handleDown);
+      window.removeEventListener('keyup', handleUp);
+    };
+  }, []);
 
   const getMatch = async () => {
     try {
@@ -49,7 +68,9 @@ export default function GamePage() {
   if (!match) return null;
 
   return (
-    <main className="flex flex-col h-screen max-h-screen bg-bg-main p-4 md:p-6 overflow-hidden text-text-default">
+    <main
+     className="flex flex-col h-screen max-h-screen bg-bg-main p-4 md:p-6 overflow-hidden text-text-default"
+     onKeyUp={(e) => keysRef.current[e.code] = false}>
       
       <div className="w-full max-w-4xl mx-auto bg-bg-card rounded-2xl border border-border-glow p-4 mb-4 shrink-0">
         <div className="grid grid-cols-3 items-center">
@@ -90,10 +111,8 @@ export default function GamePage() {
 
       <div className="grow w-full max-w-5xl mx-auto bg-black rounded-xl border border-border-subtle relative overflow-hidden flex items-center justify-center">
         <div className="absolute inset-y-0 left-1/2 w-px border-r border-dashed border-white/10"></div>
-        
-        <div className="z-10 text-center">
-          <GameEngine />
-        </div>
+
+        <GameEngine keysPressed={keysRef} />
       </div>
 
       <div className="flex justify-between items-center w-full max-w-5xl mx-auto mt-4 shrink-0">

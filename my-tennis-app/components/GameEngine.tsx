@@ -27,7 +27,25 @@ export default function GameEngine({ keysPressed }: GameProps) {
 
     const update = () => {
       const keys = keysPressed.current;
+      if (!keys) return;
 
+      if (keys['KeyW']) {
+        player1Y.current -= speed;
+      }
+      if (keys['KeyS']) {
+        player1Y.current += speed;
+      }
+      if (keys['keyI']) {
+        player1Y.current -= speed;
+      }
+      if (keys['KeyS']) {
+        player1Y.current += speed;
+      }
+
+      if (player1Y.current < 0) player1Y.current = 0;
+      if (player1Y.current > canvas.height - spriteSize) {
+        player1Y.current = canvas.height - spriteSize;
+      }
     };
 
     const draw = () => {
