@@ -12,8 +12,8 @@ type GameProps = {
 export default function GameEngine({ keysPressed, match }: GameProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isPaused = useRef(false);
-  const p1Direction = useRef(0);
-  const p2Direction = useRef(0);
+  const p1Direction = useRef(1);
+  const p2Direction = useRef(1);
 
   const player1Y = useRef(300);
   const player2Y = useRef(300);
