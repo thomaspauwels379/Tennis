@@ -130,6 +130,19 @@ export default function GamePage() {
             </button>
           </div>
         )}
+        {match.state == "CANCELED" && (
+          <div className="z-10 text-center animate-in fade-in zoom-in duration-500">
+            <h1 className="text-7xl md:text-9xl font-black italic text-white mb-2 uppercase tracking-tighter drop-shadow-2xl">
+              Match Canceled
+            </h1>
+            <button 
+              onClick={() => router.push('/')}
+              className="mt-8 px-8 py-3 bg-primary text-black font-black uppercase italic rounded-full hover:scale-105 transition-transform"
+            >
+              Back to Menu
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="flex justify-between items-center w-full max-w-5xl mx-auto mt-4 shrink-0">
