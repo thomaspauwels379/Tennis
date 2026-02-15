@@ -35,4 +35,9 @@ public class MatchController {
     public Match addPoint(@PathVariable Long matchId, @RequestParam Long playerId) throws Exception {
         return matchService.addPointToMatch(matchId, playerId);
     }
+
+    @PostMapping("/{matchId}/cancel")
+    public Match cancelMatch(@PathVariable Long matchId) throws Exception {
+        return matchService.cancelMatch(matchId);
+    }
 }

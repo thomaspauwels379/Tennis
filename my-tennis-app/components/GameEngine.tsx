@@ -12,6 +12,8 @@ type GameProps = {
 export default function GameEngine({ keysPressed, match }: GameProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isPaused = useRef(false);
+  const p1Direction = useRef(0);
+  const p2Direction = useRef(0);
 
   const player1Y = useRef(300);
   const player2Y = useRef(300);
@@ -62,10 +64,23 @@ export default function GameEngine({ keysPressed, match }: GameProps) {
       const keys = keysPressed.current;
       if (!keys) return;
 
-      if (keys['KeyW']) player1Y.current -= playerspeed;
-      if (keys['KeyS']) player1Y.current += playerspeed;
-      if (keys['KeyI']) player2Y.current -= playerspeed;
-      if (keys['KeyK']) player2Y.current += playerspeed;
+        if (keys['KeyW']) { 
+          player1Y.current -= playerspeed; 
+          p1Direction.current = -1;
+        }
+        if (keys['KeyS']) { 
+          player1Y.current += playerspeed; 
+          p1Direction.current = 1;
+        }
+
+        if (keys['KeyI']) { 
+          player2Y.current -= playerspeed; 
+          p2Direction.current = -1; 
+        }
+        if (keys['KeyK']) { 
+          player2Y.current += playerspeed; 
+          p2Direction.current = 1; 
+        }
 
       checkPlayerWithinBorders(player1Y, canvas);
       checkPlayerWithinBorders(player2Y, canvas);
@@ -84,7 +99,7 @@ export default function GameEngine({ keysPressed, match }: GameProps) {
     };
 
     const checkCollisions = () => {
-      const p1HitX = 250;
+      const p1HitX = 150;
       const p2HitX = 1350;
 
       const hitP1 = ballX.current <= p1HitX && 
@@ -123,17 +138,24 @@ export default function GameEngine({ keysPressed, match }: GameProps) {
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+  
       ctx.fillStyle = "#00FFCC";
       ctx.fillRect(ballX.current, ballY.current, ballSize, ballSize);
-
       if (img.complete) {
-        ctx.drawImage(img, -50, player1Y.current, spriteSize, spriteSize);
+        const rotationAngle = 1.5;
 
         ctx.save();
-        ctx.translate(1600, 0);
-        ctx.scale(-1, 1);
-        ctx.drawImage(img, -50, player2Y.current, spriteSize, spriteSize);
+        ctx.translate(100, player1Y.current + spriteSize / 2);
+        ctx.rotate(p1Direction.current === -1 ? -rotationAngle : rotationAngle);
+        ctx.scale(1, p1Direction.current);
+        ctx.drawImage(img, -spriteSize / 2, -spriteSize / 2, spriteSize, spriteSize);
+        ctx.restore();
+
+        ctx.save();
+        ctx.translate(1500, player2Y.current + spriteSize / 2);
+        ctx.rotate(p2Direction.current === -1 ? rotationAngle : -rotationAngle);
+        ctx.scale(-1, p2Direction.current);
+        ctx.drawImage(img, -spriteSize / 2, -spriteSize / 2, spriteSize, spriteSize);
         ctx.restore();
       } else {
         img.onload = () => draw();

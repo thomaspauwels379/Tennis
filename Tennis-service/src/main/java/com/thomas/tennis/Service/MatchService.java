@@ -44,8 +44,11 @@ public class MatchService {
         return matchRepository.save(match);
     }
 
-    public void cancelMatch(long matchId){
-        matchRepository.deleteById(matchId);
+    @Transactional
+    public Match cancelMatch(long matchId){
+        Match match = getMatchById(matchId);
+        match.cancelMatch();
+        return match;
     }
 
 
@@ -54,9 +57,6 @@ public class MatchService {
         Match match = getMatchById(matchId);
         if(match == null){
             throw new Exception("De match met deze id is niet gevonden.");
-        }
-        if(match.getState() != MatchState.ONGOING){
-            throw new Exception("De match is afgelopen of afgesloten.");
         }
         match.scorePoint(playerId);
         Match savedMatch = matchRepository.save(match);
