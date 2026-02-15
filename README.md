@@ -1,6 +1,6 @@
 # Tennis
 
-# English (navigeer naar onder voor Nederlands)
+# English (onderin voor Nederlands)
 
 ## To start the projects with docker desktop
 In the main folder: "/tennis" run:
@@ -11,7 +11,7 @@ docker compose up
 This project is build with 
 java (JDK 25) + maven (3.9.6) + springboot 4
 
-## For the development enviroment setup:
+## For the development enviroment setup (without docker):
 
 ### Links for more info regarding the installation of java and maven
 - maven:
@@ -41,7 +41,7 @@ npm run dev
 
 # Nederlands
 
-## De projecten starten met Docker Desktop
+## Het project starten met Docker Desktop
 In de hoofdmap: "/tennis" run:
 ```
 docker compose up
@@ -52,7 +52,7 @@ java (JDK 25) + maven (3.9.6) + springboot 4
 en 
 next.js (node 16.1.6)
 
-## Voor de setup van de development omgeving:
+## Voor de setup van de development omgeving (zonder docker):
 
 ### Links voor meer info over de installatieprocedure van java en maven
 - maven:
