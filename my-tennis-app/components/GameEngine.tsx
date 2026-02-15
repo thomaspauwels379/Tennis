@@ -11,9 +11,11 @@ type GameProps = {
 
 export default function GameEngine({ keysPressed, match }: GameProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isPaused = useRef(false);
+
   const player1Y = useRef(300);
   const player2Y = useRef(300);
-  const speed = 20;
+  const playerspeed = 20;
   const spriteSize = 300;
 
   const ballX = useRef(800);
@@ -24,8 +26,15 @@ export default function GameEngine({ keysPressed, match }: GameProps) {
   const ballSpeed = 10;
 
   const handleScore = (player: Player) => {
-    matchService.scorePoint(match.id ,player.id);
-    resetBall();
+    if (isPaused.current) return;
+    
+    isPaused.current = true;
+    matchService.scorePoint(match.id, player.id);
+  
+    setTimeout(() => {
+      resetBall();
+      isPaused.current = false;
+    }, 2000);
   };
 
   const resetBall = () => {
@@ -49,21 +58,20 @@ export default function GameEngine({ keysPressed, match }: GameProps) {
 
     let animationFrameId: number;
 
-    resetBall();
-
-    const update = () => {
+    const handleInput = () => {
       const keys = keysPressed.current;
       if (!keys) return;
 
-      if (keys['KeyW']) player1Y.current -= speed;
-      if (keys['KeyS']) player1Y.current += speed;
-      
-      if (keys['KeyI']) player2Y.current -= speed;
-      if (keys['KeyK']) player2Y.current += speed;
+      if (keys['KeyW']) player1Y.current -= playerspeed;
+      if (keys['KeyS']) player1Y.current += playerspeed;
+      if (keys['KeyI']) player2Y.current -= playerspeed;
+      if (keys['KeyK']) player2Y.current += playerspeed;
 
       checkPlayerWithinBorders(player1Y, canvas);
       checkPlayerWithinBorders(player2Y, canvas);
+    };
 
+    const moveBall = () => {
       ballX.current += ballVelocityX.current;
       ballY.current += ballVelocityY.current;
 
@@ -71,11 +79,39 @@ export default function GameEngine({ keysPressed, match }: GameProps) {
         ballVelocityY.current *= -1;
       }
 
-      if (ballX.current <= 0) {
-        handleScore(match.player2);
-      } else if (ballX.current >= canvas.width - ballSize) {
-        handleScore(match.player1);
+      if (ballX.current <= 0) handleScore(match.player2);
+      if (ballX.current >= canvas.width) handleScore(match.player1);
+    };
+
+    const checkCollisions = () => {
+      const p1HitX = 250;
+      const p2HitX = 1350;
+
+      const hitP1 = ballX.current <= p1HitX && 
+                    ballY.current > player1Y.current && 
+                    ballY.current < player1Y.current + spriteSize;
+
+      const hitP2 = ballX.current >= p2HitX && 
+                    ballY.current > player2Y.current && 
+                    ballY.current < player2Y.current + spriteSize;
+
+      if (hitP1) {
+        ballVelocityX.current = Math.abs(ballVelocityX.current) * 1.1;
+        ballX.current = p1HitX + 1;
       }
+
+      if (hitP2) {
+        ballVelocityX.current = -Math.abs(ballVelocityX.current) * 1.1;
+        ballX.current = p2HitX - ballSize - 1;
+      }
+    };
+
+    const update = () => {
+      if (isPaused.current) return;
+
+      handleInput();
+      moveBall();
+      checkCollisions();
     };
 
     const checkPlayerWithinBorders = (player:RefObject<number>,canvas:HTMLCanvasElement) => {
@@ -110,6 +146,7 @@ export default function GameEngine({ keysPressed, match }: GameProps) {
       animationFrameId = requestAnimationFrame(loop);
     };
 
+    resetBall();
     loop();
 
     return () => cancelAnimationFrame(animationFrameId);
